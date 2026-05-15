@@ -73,11 +73,17 @@ resource aws_instance my_instance {
 	
 	# root storage (EBS)
 	root_block_device {
-		volume_size = 10
+		volume_size = var.ec2_volume_size
 		volume_type = "gp3"
 	}
 
 	tags = {
-    Name = "terra-automate-server"
+    Name = var.ec2_instance_name
   }
+  
 }
+
+resource "aws_ec2_instance_state" "my_instance_state" {
+    instance_id = aws_instance.my_instance.id
+    state       = var.ec2_instance_state
+  }
